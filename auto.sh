@@ -62,7 +62,7 @@ EOF
 
 # Membuat file HTML untuk template
 echo "Membuat file template HTML..."
-cat > templates/index.html <<EOF
+cat > templates/index.html <<'EOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -92,10 +92,10 @@ cat > templates/index.html <<EOF
                 if (result.status === 'success') {
                     document.getElementById('output').innerText = result.output;
                 } else {
-                    document.getElementById('output').innerText = `Error: ${result.message}`;
+                    document.getElementById('output').innerText = `Error: \${result.message}`;
                 }
             } catch (error) {
-                document.getElementById('output').innerText = `Request failed: ${error}`;
+                document.getElementById('output').innerText = `Request failed: \${error}`;
             }
         });
     </script>
