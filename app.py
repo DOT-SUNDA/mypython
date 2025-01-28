@@ -26,17 +26,17 @@ def run_script():
         script_path = os.path.join(script_directory, script_name)
 
         # Debugging: Log path script yang dihasilkan
-        print(f"Current working directory: {os.getcwd()}")
-        print(f"Script path: {script_path}")
-        print(f"Abs path: {os.path.abspath(script_path)}")
+        print("Current working directory: {}".format(os.getcwd()))
+        print("Script path: {}".format(script_path))
+        print("Abs path: {}".format(os.path.abspath(script_path)))
         
         # Periksa apakah script yang diminta ada dan berada di direktori yang diizinkan
         if not os.path.isfile(script_path):
-            return jsonify({'status': 'error', 'message': f'Script {script_name} tidak ditemukan atau tidak valid'}), 400
+            return jsonify({'status': 'error', 'message': 'Script {} tidak ditemukan atau tidak valid'.format(script_name)}), 400
 
         # Pastikan script memiliki hak akses eksekusi
         if not os.access(script_path, os.X_OK):
-            return jsonify({'status': 'error', 'message': f'Script {script_name} tidak memiliki hak akses eksekusi'}), 400
+            return jsonify({'status': 'error', 'message': 'Script {} tidak memiliki hak akses eksekusi'.format(script_name)}), 400
         
         # Jalankan script bash dengan email dan password sebagai argument
         result = subprocess.run(
@@ -53,7 +53,7 @@ def run_script():
             'output': result.stdout.strip()  # Hapus whitespace ekstra
         })
     except subprocess.CalledProcessError as e:
-        return jsonify({'status': 'error', 'message': f'Script execution failed: {e}'}), 500
+        return jsonify({'status': 'error', 'message': 'Script execution failed: {}'.format(e)}), 500
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
