@@ -47,11 +47,10 @@ def run_script():
             shell=False  # Tidak menggunakan shell untuk keamanan
         )
 
-        # Kembalikan output dan error
+        # Kembalikan hanya output dari script (stdout)
         return jsonify({
             'status': 'success',
-            'output': result.stdout,
-            'error': result.stderr
+            'output': result.stdout.strip()  # Hapus whitespace ekstra
         })
     except subprocess.CalledProcessError as e:
         return jsonify({'status': 'error', 'message': f'Script execution failed: {e}'}), 500
