@@ -10,16 +10,17 @@ def home():
 @app.route('/run-script', methods=['POST'])
 def run_script():
     try:
-        # Ambil argument dari request
+        # Ambil email dan password dari request
         data = request.get_json()
-        argument = data.get('argument', '')
+        email = data.get('email', '')
+        password = data.get('password', '')
 
-        # Jalankan script bash dengan argument
+        # Jalankan script bash dengan email dan password sebagai argument
         result = subprocess.run(
-            ['./scripts/your_script.sh', argument],  # pastikan nama skrip sesuai
+            ['./scripts/your_script.sh', email, password],  # kirim email dan password ke script
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            universal_newlines=True  # Ganti text=True dengan universal_newlines=True
+            universal_newlines=True
         )
         return jsonify({
             'status': 'success',
