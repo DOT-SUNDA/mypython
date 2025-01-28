@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run Script with Arguments</title>
+</head>
+<body>
+    <h1>Run Script and See Output</h1>
+    <label for="argument">Enter Argument:</label>
+    <input type="text" id="argument" placeholder="Type your argument">
+    <button id="runBtn">Run Script</button>
+    <pre id="output"></pre>
+
+    <script>
+        document.getElementById('runBtn').addEventListener('click', async () => {
+            const argument = document.getElementById('argument').value; // Ambil argumen dari input
+            document.getElementById('output').innerText = 'Running script...';
+
+            try {
+                const response = await fetch('/run-script', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ argument }) // Kirim argumen ke server
+                });
+                const result = await response.json();
+                if (result.status === 'success') {
+                    document.getElementById('output').innerText = result.output; // Tampilkan output
+                } else {
+                    document.getElementById('output').innerText = `Error: ${result.message}`;
+                }
+            } catch (error) {
+                document.getElementById('output').innerText = `Request failed: ${error}`;
+            }
+        });
+    </script>
+</body>
+</html>
