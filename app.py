@@ -29,13 +29,17 @@ def run_script():
         if not os.path.isfile(script_path) or not script_path.startswith(os.path.abspath(script_directory)):
             return jsonify({'status': 'error', 'message': 'Script tidak ditemukan atau tidak valid'}), 400
         
+        # Pastikan script memiliki hak akses eksekusi
+        if not os.access(script_path, os.X_OK):
+            return jsonify({'status': 'error', 'message': 'Script tidak memiliki hak akses eksekusi'}), 400
+        
         # Jalankan script bash dengan email dan password sebagai argument
         result = subprocess.run(
-            [script_path, email, password],
+            ['bash', script_path, email, password],  # Menjalankan dengan bash
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             universal_newlines=True,
-            shell=False
+            shell=False  # Tidak menggunakan shell untuk keamanan
         )
 
         # Kembalikan output dan error
