@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request, jsonify
 import subprocess
 
@@ -11,14 +10,16 @@ def home():
 @app.route('/run-script', methods=['POST'])
 def run_script():
     try:
+        # Ambil argument dari request
         data = request.get_json()
         argument = data.get('argument', '')
 
+        # Jalankan script bash dengan argument
         result = subprocess.run(
-            ['./scripts/your_script.sh', argument],
+            ['./scripts/your_script.sh', argument],  # pastikan nama skrip sesuai
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            text=True
+            universal_newlines=True  # Ganti text=True dengan universal_newlines=True
         )
         return jsonify({
             'status': 'success',
